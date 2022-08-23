@@ -13,7 +13,7 @@ class Card:
               "Queen", "King", "Ace")
     
     # Card object has a value and a suit (both integers)
-    def __init__(self, v, s):
+    def __init__(self, v, s): # These values are assigned in the deck function
         self.value = v
         self.suit = s
         
@@ -80,6 +80,13 @@ class Game:
         d = f"{p1n} drew {p1c} {p2n} drew {p2c}"
         print(d)
         
+    def winner(self, p1, p2):
+        if p1.wins > p2.wins:
+            return p1.name, p1.wins
+        if p1.wins < p2.wins:
+            return p2.name, p2.wins
+        return "It was a tie!"
+   
     def play_game(self):
         cards = self.deck.cards # This is assigning a shuffled deck to the cards variable.
         print("beginning War!")
@@ -92,30 +99,32 @@ class Game:
             p2c = self.deck.rm_card()
             p1n = self.p1.name # Assign p1 name to p1n
             p2n = self.p2.name
-            self.draw(p1n,p1c,p2n,p2c)
+            self.draw(p1n,p1c,p2n,p2c) # Tells what each player drew
             if p1c > p2c:
                 self.p1.wins += 1
-                self.wins(self.p1.name)
+                self.wins(self.p1.name) # Prints win message, using this name as winner variable.
             else:
                 self.p2.wins += 1
                 self.wins(self.p2.name)
         
-        win = self.winner(self.p1, self.p2)
+        win = self.winner(self.p1, self.p2) # Assigns name with most wins to win variable via winner function.
+        final_score = f"Final score: {self.p1.name}:{self.p1.wins} {self.p2.name}:{self.p2.wins} "
+        # This is printed when either cards < 2 or input is q.
+        print(f"War is over. {win[0]} wins with a score of {win[1]} wins!") # Name from win is declared winner! 
+        print(final_score)
         
-        print(f"War is over. {win} wins!")
-        
-    def winner(self, p1, p2):
-        if p1.wins > p2.wins:
-            return p1.name
-        if p1.wins < p2.wins:
-            return p2.name
-        return "It was a tie!"
-        
-    
 
-    
+        
     
 game = Game()
 game.play_game()
+
+
+# I would like to iterate this project, by adding an alternate mode, where rather than suits being considered,
+# it would play like how I have always played.
+# If you both place the same value, regardless of suit, you enter a war :
+# Both users place 3 cards face down and a final card on top, whichever is higher takes the stack.
+# Once all cards are gone, users count their total cards (gotten via winning each round with a higher value)
+# This would be a good use of branching, and a good point to dip my toes in.
         
     
